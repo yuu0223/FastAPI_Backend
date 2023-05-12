@@ -38,3 +38,17 @@ async def get_event_list(time: datetime.datetime, db: Session = Depends(get_db))
 async def get_event_info(event_id: str, db: Session = Depends(get_db)):
 
     return await business.get_event_info(event_id, db)
+
+
+@router.get("/member_event_join", summary="使用者活動列表")
+async def get_member_event_join(member_id: str, db: Session = Depends(get_db)):
+
+    return await business.get_member_event_join(member_id, db)
+
+
+@router.delete("", summary="刪除使用者參與之活動")
+async def delete_member_event_join(
+    DeleteMemberEventJoinRequest: schema.DeleteMemberEventJoinRequest, db: Session = Depends(get_db)
+):
+
+    return await business.delete_member_event_join(DeleteMemberEventJoinRequest, db)

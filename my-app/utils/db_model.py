@@ -30,19 +30,17 @@ class Post(BASE):
     Content = Column(String(255))
     Location = Column(String(50))
     Limit_member = Column(INTEGER)
-    Create_time = Column(DateTime)  # 文章建立時間
-    Start_time = Column(DateTime)  # 報名開始時間
-    End_time = Column(DateTime)  # 報名結束時間
-    Close_time = Column(DateTime)  # 文章關閉時間
+    Create_time = Column(DateTime, nullable=False)  # 文章建立時間
+    Start_time = Column(DateTime, nullable=False)  # 活動開始時間
+    End_time = Column(DateTime, nullable=False)  # 活動結束時間
+    Close_time = Column(DateTime, nullable=False)  # 報名結束時間
 
 
 class PostParticipant(BASE):
     __tablename__ = "POST_PARTICIPANT"
 
-    Post_id = Column(String(200), ForeignKey("POST.ID"),
-                     primary_key=True, nullable=False)
-    Account_id = Column(String(200), ForeignKey("ACCOUNT.ID"),
-                        primary_key=True, nullable=False)
+    Post_id = Column(String(200), ForeignKey("POST.ID"), primary_key=True, nullable=False)
+    Account_id = Column(String(200), ForeignKey("ACCOUNT.ID"), primary_key=True, nullable=False)
 
 
 # 註解：因為這些資料是直接用匯入資料庫的，所以暫時用不到

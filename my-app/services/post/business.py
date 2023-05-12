@@ -30,12 +30,21 @@ async def get_event_info(event_id: str, db: Session):
         return Response.Error(msg="查無此文章，可能已遭刪除。")
 
     # 轉換成正確的時間型態
-    event_info[0]["start_time"] = datetime.datetime.strftime(
-        event_info[0]["start_time"], DATETIME_FORMAT) if event_info[0]["start_time"] is not None else event_info[0]["start_time"]
-    event_info[0]["close_time"] = datetime.datetime.strftime(
-        event_info[0]["close_time"], DATETIME_FORMAT) if event_info[0]["close_time"] is not None else event_info[0]["close_time"]
-    event_info[0]["end_time"] = datetime.datetime.strftime(
-        event_info[0]["end_time"], DATETIME_FORMAT) if event_info[0]["end_time"] is not None else event_info[0]["end_time"]
+    event_info[0]["start_time"] = (
+        datetime.datetime.strftime(event_info[0]["start_time"], DATETIME_FORMAT)
+        if event_info[0]["start_time"] is not None
+        else event_info[0]["start_time"]
+    )
+    event_info[0]["close_time"] = (
+        datetime.datetime.strftime(event_info[0]["close_time"], DATETIME_FORMAT)
+        if event_info[0]["close_time"] is not None
+        else event_info[0]["close_time"]
+    )
+    event_info[0]["end_time"] = (
+        datetime.datetime.strftime(event_info[0]["end_time"], DATETIME_FORMAT)
+        if event_info[0]["end_time"] is not None
+        else event_info[0]["end_time"]
+    )
 
     return Response.Success(data=event_info)
 
@@ -52,7 +61,7 @@ async def event_join(EventJoinRequest: schema.EventJoinRequest, db: Session):
     if event_info[0]["end_time"] < datetime.datetime.now():
         return Response.Error(msg="活動已經結束囉")
 
-    if len(event_member)+1 > event_info[0]["event_limit"]:
+    if len(event_member) + 1 > event_info[0]["event_limit"]:
         return Response.Error(msg="活動已達報名人數上限，可以參考看看其他活動唷！")
 
     if EventJoinRequest.member_id in event_member:
@@ -69,11 +78,13 @@ async def event_join(EventJoinRequest: schema.EventJoinRequest, db: Session):
 async def contact_poster(EmailPosterRequest: schema.EmailPosterRequest, db: Session):
 
     event_info = await crud.get_event_info_by_id(EmailPosterRequest.event_id, db)
-    user_mail_info = {"member_id": EmailPosterRequest.member_id,
-                      "poster_name": event_info[0]["name"],
-                      "poster_email": event_info[0]["email"],
-                      "email_title": EmailPosterRequest.title,
-                      "email_content": EmailPosterRequest.content}
+    user_mail_info = {
+        "member_id": EmailPosterRequest.member_id,
+        "poster_name": event_info[0]["name"],
+        "poster_email": event_info[0]["email"],
+        "email_title": EmailPosterRequest.title,
+        "email_content": EmailPosterRequest.content,
+    }
 
     return Response.Success(data=user_mail_info)
 
@@ -84,3 +95,24 @@ async def get_event_list(time, db: Session):
     event_list = await crud.get_event_list(time, db)
 
     return Response.Success(data=event_list)
+
+
+# 使用者活動列表
+async def get_member_event_join(member_id: str, db: Session):
+
+    member_event_join = await crud.get_member_event_join(member_id, db)
+
+    return Response.Success(data=member_event_join)
+
+
+# 刪除使用者參與之活動
+async def delete_member_event_join(DeleteMemberEventJoinRequest: schema.DeleteMemberEventJoinRequest, db: Session):
+
+    member_event_join = await crud.get_member_event_join(DeleteMemberEventJoinRequest.member_id, db)
+    event_id_list = [item["ID"] for item in member_event_join if not item["is_closed"]]
+
+    if DeleteMemberEventJoinRequest.event_id not in event_id_list:
+        return Response.Error(msg="你未報名過這個活動或是活動已經結束啦！")
+    else:
+        await crud.delete_member_event_join(DeleteMemberEventJoinRequest, db)
+        return Response.Success(data=None)

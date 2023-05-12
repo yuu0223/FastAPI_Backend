@@ -1,4 +1,3 @@
-import re
 import datetime
 from pydantic.main import BaseModel
 
@@ -28,3 +27,9 @@ class EmailPosterRequest(BaseModel):
     event_id: str
     title: str
     content: str
+
+
+class DeleteMemberEventJoinRequest(BaseModel):
+
+    member_id: str
+    event_id: str
