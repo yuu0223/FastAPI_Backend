@@ -5,24 +5,18 @@ import datetime
 
 
 async def get_account_info_by_email(email: str, db: Session):
-
     account_info = [
         {
             "ID": data[0],
             "Name": data[1],
             "Email": data[2],
             "Gender": data[3],
-            "Pwd": data[4]
+            "Pwd": data[4],
         }
         for data in db.query(
-            Account.ID,
-            Account.Name,
-            Account.Email,
-            Account.Gender,
-            Account.Password
+            Account.ID, Account.Name, Account.Email, Account.Gender, Account.Password
         )
-        .filter(
-            Account.Email == email)
+        .filter(Account.Email == email)
         .all()
     ]
 
@@ -33,24 +27,18 @@ async def get_account_info_by_email(email: str, db: Session):
 
 
 async def get_account_info_by_id(account_id: str, db: Session):
-
     account_info = [
         {
             "ID": data[0],
             "Name": data[1],
             "Email": data[2],
             "Gender": data[3],
-            "Pwd": data[4]
+            "Pwd": data[4],
         }
         for data in db.query(
-            Account.ID,
-            Account.Name,
-            Account.Email,
-            Account.Gender,
-            Account.Password
+            Account.ID, Account.Name, Account.Email, Account.Gender, Account.Password
         )
-        .filter(
-            Account.ID == account_id)
+        .filter(Account.ID == account_id)
         .all()
     ]
 
@@ -61,14 +49,15 @@ async def get_account_info_by_id(account_id: str, db: Session):
 
 
 async def update_last_login_time(email: str, db: Session):
-
     db.query(Account).filter(Account.Email == email).update(
-        {"Last_login_time": datetime.datetime.now()})
+        {"Last_login_time": datetime.datetime.now()}
+    )
     db.commit()
 
 
-async def create_member(uuid_code, hash_pwd, postRequest: schema.CreateMemberRequest, db: Session):
-
+async def create_member(
+    uuid_code, hash_pwd, postRequest: schema.CreateMemberRequest, db: Session
+):
     db.add(
         Account(
             ID=uuid_code,
@@ -82,10 +71,19 @@ async def create_member(uuid_code, hash_pwd, postRequest: schema.CreateMemberReq
     db.commit()
 
 
-async def edit_member_info(hash_pwd, editMemberInfoRequest: schema.EditMemberInfoRequest, db: Session):
-
+async def edit_member_info(
+    hash_pwd, editMemberInfoRequest: schema.EditMemberInfoRequest, db: Session
+):
     db.query(Account).filter(Account.ID == editMemberInfoRequest.account_id).update(
-        {"Name": editMemberInfoRequest.name,
-         "Gender": editMemberInfoRequest.gender,
-         "Password": hash_pwd})
+        {
+            "Name": editMemberInfoRequest.name,
+            "Gender": editMemberInfoRequest.gender,
+            "Password": hash_pwd,
+        }
+    )
+    db.commit()
+
+
+async def change_pwd(hash_pwd, email, db: Session):
+    db.query(Account).filter(Account.Email == email).update({"Password": hash_pwd})
     db.commit()

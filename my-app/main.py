@@ -2,11 +2,10 @@ import uvicorn
 from fastapi import FastAPI
 from utils.config import BASE
 from utils.db_conn import database
-from routers import (member, weather, post)
+from routers import member, weather, post, medical
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
@@ -22,9 +21,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 app.include_router(member.router)
 app.include_router(weather.router)
 app.include_router(post.router)
+app.include_router(medical.router)
 
 
 # @app.on_event("startup")
@@ -42,6 +43,7 @@ app.include_router(post.router)
 @app.get("/")
 async def root():
     return {"msg": 0}
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=5102, reload=True)

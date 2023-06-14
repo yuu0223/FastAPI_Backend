@@ -5,8 +5,8 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     String,
+    Text
 )
-
 
 class Account(BASE):
     __tablename__ = "ACCOUNT"
@@ -27,7 +27,7 @@ class Post(BASE):
     Account_id = Column(String(200), ForeignKey("ACCOUNT.ID"))
     Type = Column(String(50), nullable=False)
     Title = Column(String(200), nullable=False)
-    Content = Column(String(255))
+    Content = Column(Text)
     Location = Column(String(50))
     Limit_member = Column(INTEGER)
     Create_time = Column(DateTime)  # 文章建立時間
@@ -56,11 +56,11 @@ class Weather(BASE):
     Temperature = Column(INTEGER)
 
 
-# class MedicalArticles(BASE):
-#     __tablename__ = "MEDICAL_ARTICLES"
+class MedicalArticles(BASE):
+    __tablename__ = "MEDICAL_ARTICLES"
 
-#     ID = Column(INTEGER, primary_key=True, nullable=False, autoincrement=True)
-#     Title = Column(String(255))
-#     Author = Column(String(50))
-#     Article = Column(String(5000))
-#     Url = Column(String(255))
+    ID = Column(INTEGER, primary_key=True, nullable=False, autoincrement=True)
+    Title = Column(String(255))
+    Author = Column(String(50))
+    Article = Column(String(5000))
+    Url = Column(String(255))

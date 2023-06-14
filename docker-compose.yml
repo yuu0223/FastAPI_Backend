@@ -26,8 +26,8 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      - MYSQL_DATABASE=
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=test
+      - MYSQL_ROOT_PASSWORD=root1234
       - TZ=Asia/Taipei
     ports:
       - "3307:3306"
