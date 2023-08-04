@@ -1,4 +1,14 @@
-# I_need_you_backend - FastAPI
+# 我政需要你：孤獨解決媒合平台(I Need U)
+## Introduction
+在剛開學進入新的環境時，你是否會感到不安或是沒有人陪伴？
+為了解決政大學生的孤單情況，我們建立了這個孤單解決媒合平台。
+在這個平台上，無論是想揪團吃飯或是找人一起買一送一，又或者只是想找人聊聊天，都可以滿足你的需求～
+我們有提供以下幾種服務：
+- 論壇活動發起
+- 提供醫療文章
+- 醫療診所地圖
+- 會員註冊／登入
+- Line Bot
 
 ## Init Backend
 ### User Stories
@@ -69,3 +79,8 @@ i_need_you_backend-backend-1  | INFO:     Application startup complete.
 
 ### Utils
 * 這層是DB的一些設定，平常不太會動到。
+
+## 可再進一步開發的項目
+- Line Bot做完整一些
+- 串金流
+- 將平台目標再規劃的更明確
