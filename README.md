@@ -10,7 +10,7 @@
 4. 會員註冊／登入
 5. Line Bot
 
-> Here we just provide the backend code. If you want to try frontend, you can meet this [github website](https://github.com/timsu92/I_need_you).
+> Here we just provide the code of backend. If you want to try frontend, you can meet this [github website](https://github.com/timsu92/I_need_you).
 
 ## Init Backend
 ### User Stories
