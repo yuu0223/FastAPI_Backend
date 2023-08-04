@@ -10,6 +10,8 @@
 4. 會員註冊／登入
 5. Line Bot
 
+> Here we just provide the backend code. If you want to try frontend, you can meet this [github website](https://github.com/timsu92/I_need_you).
+
 ## Init Backend
 ### User Stories
 * Google Sheet：[I need U Backend](https://docs.google.com/spreadsheets/d/1kaPPt6ZKHEwUXH6XYq5hUUsatFYW69wP/edit#gid=1824606681)
