@@ -5,11 +5,12 @@ import mysql.connector
 # 抓取天氣資料並存入 MySQL 數據庫
 def fetch_and_store_weather():
     # 抓取天氣資料
-    authorization = "CWB-E0CBEB14-87B4-49A9-A4CA-A3240E63E9F4"
+    authorization = "##自己的天氣金鑰##"
     url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-061?Authorization=CWB-E0CBEB14-87B4-49A9-A4CA-A3240E63E9F4"
     res = requests.get(url, {"Authorization": authorization})
     resJson = res.json()
 
+    #目前只取台北市文山區的天氣資訊
     locations = resJson['records']['locations'][0]['location']
     wen_location = [x for x in locations if x['locationName'] == '文山區'][0]
     elementNames = wen_location['weatherElement']
@@ -22,11 +23,11 @@ def fetch_and_store_weather():
 
     # 創建與 MySQL 數據庫的連接
     mydb = mysql.connector.connect(
-        host="127.0.0.1",
-        port="3307",
-        user="root",
-        password="root1234",
-        database="test"
+        host="## 自己個DB IP ##",
+        port="## Port ##",
+        user="## DB user name ##",
+        password="## DB pwd ##",
+        database="## DB name ##"
     )
 
     # 創建游標對象
